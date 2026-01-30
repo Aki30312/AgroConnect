@@ -55,10 +55,11 @@ public class ProductDAO {
 
     public boolean updateProduct(Product product) throws SQLException {
         String sql = """
-            UPDATE products
-            SET name = ?, price = ?, quantity = ?
-            WHERE id = ? AND farmer_id = ?
-        """;
+    UPDATE products
+    SET name = ?, price = ?, quantity = ?
+    WHERE id = ? AND farmer_id = ?
+""";
+
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {

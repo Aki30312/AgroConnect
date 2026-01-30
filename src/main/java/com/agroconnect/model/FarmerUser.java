@@ -4,13 +4,13 @@ public class FarmerUser extends User {
 
     private String phone;
 
-    public FarmerUser(int id, String name, String password, String email, String phone) {
+    public FarmerUser(int id, String name, String password, String email ) {
         super(id, name, email, password);
-        this.phone = phone;
+
     }
 
-    public FarmerUser(String name, String username, String password, String phone) {
-        this(0, name, username, password, phone);
+    public FarmerUser(String name, String username, String password) {
+        this(0, name, username, password);
     }
 
     @Override
@@ -19,10 +19,10 @@ public class FarmerUser extends User {
     }
 
 
-    public void setPhone(String phone) {
+    /*public void setPhone(String phone) {
         this.phone = phone;
     }
     public String getPhone(String phone) {
         return phone;
-    }
+    }*/
 }

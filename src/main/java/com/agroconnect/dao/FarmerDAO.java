@@ -29,9 +29,6 @@ public class FarmerDAO {
             ps.setString(1, farmer.getName());
             ps.setString(2, farmer.getEmail());
             ps.setString(3, farmer.getPassword());
-            ps.setString(4, farmer.getPhone());
-            ps.setString(5, farmer.getLocation());
-
             ps.executeUpdate();
 
             try (ResultSet keys = ps.getGeneratedKeys()) {
@@ -57,9 +54,9 @@ public class FarmerDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("phone"),
-                        rs.getString("location")
+                        rs.getString("password")
+
+
                 );
             }
         }
@@ -80,9 +77,9 @@ public class FarmerDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("phone"),
-                        rs.getString("location")
+                        rs.getString("password")
+
+
                 );
             }
         }
