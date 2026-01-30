@@ -1,4 +1,4 @@
-// File: src/main/java/com/agriconnect/util/DBConnection.java
+// File: src/main/java/com/agroconnect/util/DBConnection.java
 package com.agroconnect.util;
 
 import java.sql.Connection;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class DBConnection {
 
     // Path to your SQLite database file
-    private static final String DB_URL = "jdbc:sqlite:agriconnect.db";
+    private static final String DB_URL = "jdbc:sqlite:agroconnect.db";
 
     /**
      * Returns a Connection to the SQLite database
