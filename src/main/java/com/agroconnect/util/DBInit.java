@@ -26,7 +26,7 @@ public class DBInit {
               FOREIGN KEY (farmer_id) REFERENCES farmers(id)
             );
         """;
-       /* String buyers= """
+        String buyers= """
              CREATE TABLE buyers (
                id INTEGER PRIMARY KEY AUTOINCREMENT,
                name TEXT NOT NULL,
@@ -47,7 +47,7 @@ public class DBInit {
                                FOREIGN KEY (buyer_id) REFERENCES buyers(id),
                                FOREIGN KEY (product_id) REFERENCES products(id)
                        );
-               """;*/
+               """;
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement()) {
 
