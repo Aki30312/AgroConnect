@@ -11,6 +11,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        DBInit.createTables();
         // Load FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainScene.fxml"));
         Parent root = loader.load();
