@@ -1,28 +1,35 @@
 package com.agroconnect.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.StackPane;
+
+import java.io.IOException;
 
 public class MainSceneController {
 
-    @FXML private Button farmersBtn;
-    @FXML private Button productsBtn;
-    @FXML private Button ordersBtn;
-    @FXML private Button exitBtn;
+    @FXML private StackPane contentArea;
+
+    // Make this accessible by other controllers
+    private static MainSceneController instance;
 
     @FXML
     public void initialize() {
+        instance = this;
+        switchView("login.fxml"); // first screen
+    }
 
-        farmersBtn.setOnAction(e ->
-                System.out.println("Farmer Management clicked"));
+    public static MainSceneController getInstance() {
+        return instance;
+    }
 
-        productsBtn.setOnAction(e ->
-                System.out.println("Products clicked"));
-
-        ordersBtn.setOnAction(e ->
-                System.out.println("Orders clicked"));
-
-        exitBtn.setOnAction(e -> Platform.exit());
+    public void switchView(String fxmlFile) {
+        try {
+            Parent view = FXMLLoader.load(getClass().getResource("/fxml/" + fxmlFile));
+            contentArea.getChildren().setAll(view);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

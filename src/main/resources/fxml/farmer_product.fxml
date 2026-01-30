@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.agroconnect.controller.FarmerController">
+
+    <top>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12"/>
+            </padding>
+
+            <Label text="Manage My Products" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label fx:id="lblStatus" text=""/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="12">
+            <padding>
+                <Insets top="0" right="12" bottom="12" left="12"/>
+            </padding>
+
+            <!-- Product Form -->
+            <GridPane hgap="10" vgap="10">
+                <Label text="Product Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtName" promptText="e.g. Tomato"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Price:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtPrice" promptText="e.g. 25.50"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Quantity:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtQuantity" promptText="e.g. 10"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                    <Button text="Add" onAction="#handleAddProduct"/>
+                    <Button text="Update" onAction="#handleUpdateProduct"/>
+                    <Button text="Delete" onAction="#handleDeleteProduct"/>
+                    <Button text="Refresh" onAction="#handleRefreshProducts"/>
+                    <Button text="Back" onAction="#goBackToDashboard"/>
+                </HBox>
+            </GridPane>
+
+            <Separator/>
+
+            <!-- Products Table -->
+            <TableView fx:id="tableProducts" prefHeight="320">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                    <TableColumn fx:id="colName" text="Product" prefWidth="220"/>
+                    <TableColumn fx:id="colPrice" text="Price" prefWidth="120"/>
+                    <TableColumn fx:id="colQuantity" text="Quantity" prefWidth="120"/>
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.agroconnect.controller.FarmerController"
+      spacing="12"
+      alignment="CENTER">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="My Profile" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtProfileName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Phone:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtProfilePhone" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Location:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtProfileLocation" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10">
+        <Button text="Update Profile" onAction="#handleUpdateProfile"/>
+        <Button text="Back" onAction="#goBackToDashboard"/>
+    </HBox>
+
+</VBox>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.agroconnect.controller.BuyerOrdersController">
+
+    <top>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12"/>
+            </padding>
+
+            <Label text="My Orders" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label fx:id="lblStatus" text="Your order history appears below."/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="12">
+            <padding>
+                <Insets top="0" right="12" bottom="12" left="12"/>
+            </padding>
+
+            <TableView fx:id="tableOrders" prefHeight="340">
+                <columns>
+                    <TableColumn fx:id="colOrderId" text="Order ID" prefWidth="90"/>
+                    <TableColumn fx:id="colProductId" text="Product ID" prefWidth="100"/>
+                    <TableColumn fx:id="colQuantity" text="Quantity" prefWidth="100"/>
+                    <TableColumn fx:id="colDate" text="Date" prefWidth="200"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10">
+                <Button text="Refresh" onAction="#handleRefreshOrders"/>
+                <Button text="Back" onAction="#goBackToDashboard"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
