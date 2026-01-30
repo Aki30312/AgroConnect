@@ -1,4 +1,4 @@
-package com.agroconnect;
+package com.agroconnect.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

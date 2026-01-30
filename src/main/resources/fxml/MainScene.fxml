@@ -8,7 +8,7 @@
       alignment="CENTER"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.agroconnect.MainSceneController">
+      fx:controller="com.agroconnect.controller.MainSceneController">
 
     <Label text="Agri-Connect Dashboard" style="-fx-font-size: 20;" />
 
