@@ -6,6 +6,7 @@ import java.sql.Statement;
 public class DBInit {
 
     public static void createTables() {
+/*-- Stores registered farmer  account information*/
 
         String farmers = """
             CREATE TABLE IF NOT EXISTS farmers (
