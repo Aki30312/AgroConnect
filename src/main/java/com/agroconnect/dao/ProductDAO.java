@@ -53,16 +53,72 @@ public class ProductDAO {
         return list;
     }
 
-    public boolean updateProduct(Product product) throws SQLException {
-        String sql = """
-    UPDATE products
-    SET name = ?, price = ?, quantity = ?
-    WHERE id = ? AND farmer_id = ?
-""";
+    // ✅ NEW: buyers need all products
+    public List<Product> getAllProducts() throws SQLException {
+        String sql = "SELECT * FROM products ORDER BY id DESC";
+        List<Product> list = new ArrayList<>();
 
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(new Product(
+                        rs.getInt("id"),
+                        rs.getInt("farmer_id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity")
+                ));
+            }
+        }
+        return list;
+    }
+
+    // ✅ NEW: get a single product (useful for order validation)
+    public Product getById(int productId) throws SQLException {
+        String sql = "SELECT * FROM products WHERE id = ? LIMIT 1";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, productId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) return null;
+
+                return new Product(
+                        rs.getInt("id"),
+                        rs.getInt("farmer_id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity")
+                );
+            }
+        }
+    }
+
+    // ✅ NEW: reduce/update stock (optional but recommended)
+    public boolean updateQuantity(int productId, int newQuantity) throws SQLException {
+        String sql = "UPDATE products SET quantity = ? WHERE id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, newQuantity);
+            ps.setInt(2, productId);
+
+            return ps.executeUpdate() == 1;
+        }
+    }
+
+    public boolean updateProduct(Product product) throws SQLException {
+        String sql = """
+            UPDATE products
+            SET name = ?, price = ?, quantity = ?
+            WHERE id = ? AND farmer_id = ?
+        """;try (Connection conn = DBConnection.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, product.getName());
             ps.setDouble(2, product.getPrice());
