@@ -25,7 +25,7 @@
                 <Insets top="0" right="12" bottom="12" left="12"/>
             </padding>
 
-            <!-- Product Form -->
+
             <GridPane hgap="10" vgap="10">
                 <Label text="Product Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="txtName" promptText="e.g. Tomato"
