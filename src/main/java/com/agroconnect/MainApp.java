@@ -17,8 +17,8 @@ public class MainApp extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainScene.fxml"));
         Parent root = loader.load();
-
-        Scene scene = new Scene(root,400,300);
+        Scene scene = new Scene(root,900,600);
+        scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
         stage.setTitle("Agri-Connect");
         stage.setScene(scene);
         stage.show();
