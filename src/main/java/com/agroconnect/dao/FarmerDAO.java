@@ -7,39 +7,31 @@ import java.sql.*;
 
 public class FarmerDAO {
 
-    public boolean emailExists(String email) throws SQLException {
-        String sql = "SELECT 1 FROM farmers WHERE email = ? LIMIT 1";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, email);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
-        }
-    }
-
-    // returns generated farmer id
-    public int registerFarmer(FarmerUser farmer) throws SQLException {
+    // Register farmer (INSERT)
+    public boolean registerFarmer(FarmerUser farmer) {
         String sql = "INSERT INTO farmers(name, email, password, phone, location) VALUES(?,?,?,?,?)";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, farmer.getName());
             ps.setString(2, farmer.getEmail());
             ps.setString(3, farmer.getPassword());
-            ps.executeUpdate();
+            ps.setString(4, farmer.getPhone());
+            ps.setString(5, farmer.getLocation());
 
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                if (keys.next()) return keys.getInt(1);
-            }
+            ps.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Register farmer failed: " + e.getMessage());
+            return false;
         }
-        return 0;
     }
 
-    public FarmerUser login(String email, String password) throws SQLException {
-        String sql = "SELECT * FROM farmers WHERE email = ? AND password = ? LIMIT 1";
+    // Login farmer (SELECT)
+    public FarmerUser login(String email, String password) {
+        String sql = "SELECT * FROM farmers WHERE email=? AND password=?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -47,9 +39,9 @@ public class FarmerDAO {
             ps.setString(1, email);
             ps.setString(2, password);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) return null;
+            ResultSet rs = ps.executeQuery();
 
+            if (rs.next()) {
                 return new FarmerUser(
                         rs.getInt("id"),
                         rs.getString("name"),
@@ -57,51 +49,33 @@ public class FarmerDAO {
                         rs.getString("password"),
                         rs.getString("phone"),
                         rs.getString("location")
-
-
                 );
             }
+
+        } catch (SQLException e) {
+            System.out.println("Login failed: " + e.getMessage());
         }
+
+        return null;
     }
 
-    public FarmerUser findById(int id) throws SQLException {
-        String sql = "SELECT * FROM farmers WHERE id = ? LIMIT 1";
+    // Update profile (UPDATE)
+    public boolean updateProfile(FarmerUser farmer) {
+        String sql = "UPDATE farmers SET name=?, phone=?, location=? WHERE id=?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
+            ps.setString(1, farmer.getName());
+            ps.setString(2, farmer.getPhone());
+            ps.setString(3, farmer.getLocation());
+            ps.setInt(4, farmer.getId());
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) return null;
+            return ps.executeUpdate() > 0;
 
-                return new FarmerUser(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("phone"),
-                        rs.getString("location")
-
-
-
-                );
-            }
-        }
-    }
-
-    public boolean updateProfile(int farmerId, String name, String phone, String location) throws SQLException {
-        String sql = "UPDATE farmers SET name = ?, phone = ?, location = ? WHERE id = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, name);
-            ps.setString(2, phone);
-            ps.setString(3, location);
-            ps.setInt(4, farmerId);
-
-            return ps.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println("Update profile failed: " + e.getMessage());
+            return false;
         }
     }
 }
