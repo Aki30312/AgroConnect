@@ -50,7 +50,7 @@
 
             <Separator/>
 
-            <!-- Products Table -->
+
             <TableView fx:id="tableProducts" prefHeight="320">
                 <columns>
                     <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
