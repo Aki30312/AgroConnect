@@ -37,6 +37,15 @@ public class LoginController {
             lblStatus.setText("Email and password are required.");
             return;
         }
+        if (!email.contains("@")) {
+            lblStatus.setText("Enter a valid email.");
+            return;
+        }
+
+        if (pass.length() < 4) {
+            lblStatus.setText("Password too short.");
+            return;
+        }
 
         try {
             if ("FARMER".equals(role)) {
