@@ -37,7 +37,7 @@
 
             <Separator/>
 
-            <!-- Order Section -->
+
             <GridPane hgap="10" vgap="10">
                 <Label text="Order Quantity:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="txtOrderQty" promptText="e.g. 2" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
