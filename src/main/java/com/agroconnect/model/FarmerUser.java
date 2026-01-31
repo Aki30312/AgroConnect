@@ -5,6 +5,7 @@ package com.agroconnect.model;
  * Demonstrates inheritance (FarmerUser extends User)
  */
 public class FarmerUser extends User {
+    //The class FarmerUser extends the abstract class called User which shows the principle of inheritance
 
     private String phone;
     private String location;
