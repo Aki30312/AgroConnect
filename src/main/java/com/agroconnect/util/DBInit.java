@@ -40,6 +40,7 @@ public class DBInit {
               FOREIGN KEY (farmer_id) REFERENCES farmers(id)
             );
         """;
+/*-- Stores customer order information and order dates*/
 
         String orders = """
             CREATE TABLE IF NOT EXISTS orders (
