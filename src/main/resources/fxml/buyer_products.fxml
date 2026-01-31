@@ -25,7 +25,7 @@
                 <Insets top="0" right="12" bottom="12" left="12"/>
             </padding>
 
-            <!-- Products Table -->
+
             <TableView fx:id="tableProducts" prefHeight="320">
                 <columns>
                     <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
