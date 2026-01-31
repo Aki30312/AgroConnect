@@ -28,6 +28,7 @@ public class DBInit {
               phone TEXT
             );
         """;
+/*-- Stores product details available for sale*/
 
         String products = """
             CREATE TABLE IF NOT EXISTS products (
