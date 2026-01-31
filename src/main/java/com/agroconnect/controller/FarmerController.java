@@ -17,6 +17,10 @@ public class FarmerController {
     @FXML private TextField txtName;
     @FXML private TextField txtPrice;
     @FXML private TextField txtQuantity;
+    // --- Profile screen UI ---
+    @FXML private TextField txtProfileName;
+    @FXML private TextField txtProfilePhone;
+    @FXML private TextField txtProfileLocation;
 
     @FXML private TableView<Product> tableProducts;
     @FXML private TableColumn<Product, Integer> colId;
@@ -192,6 +196,27 @@ public class FarmerController {
         MainSceneController.getInstance().switchView("farmer_profile.fxml");
     }
 
+    @FXML
+    private void handleUpdateProfile() {
+        // For now: just show success. DAO connection later.
+        // Works even if lblStatus belongs to a different screen.
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Profile");
+        alert.setHeaderText(null);
+
+        String name = (txtProfileName != null) ? txtProfileName.getText().trim() : "";
+        String phone = (txtProfilePhone != null) ? txtProfilePhone.getText().trim() : "";
+        String location = (txtProfileLocation != null) ? txtProfileLocation.getText().trim() : "";
+
+        alert.setContentText(
+                "Update Profile clicked.\n" +
+                        "Name: " + name + "\n" +
+                        "Phone: " + phone + "\n" +
+                        "Location: " + location + "\n\n" +
+                        "(We will connect DAO later.)"
+        );
+        alert.showAndWait();
+    }
     @FXML
     private void goBackToDashboard() {
         MainSceneController.getInstance().switchView("farmer_dashboard.fxml");
