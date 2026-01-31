@@ -20,6 +20,7 @@ public class BuyerRegisterController {
 
     @FXML
     private void goBackToLogin() {
-        lblStatus.setText("Back to Login (scene switch later).");
+        MainSceneController.getInstance().switchView("login.fxml");
     }
+
 }

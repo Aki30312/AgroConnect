@@ -33,7 +33,7 @@ public class FarmerController {
     // dashboard navigation
     @FXML
     private void goToProducts() {
-        MainSceneController.getInstance().switchView("farmer_products.fxml");
+        MainSceneController.getInstance().switchView("farmer_product.fxml");
     }
 
     @FXML

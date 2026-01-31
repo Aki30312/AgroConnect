@@ -21,16 +21,21 @@ public class LoginController {
 
     @FXML
     private void handleLogin() {
-        // TODO: Later connect FarmerDAO / BuyerDAO login here
         String email = txtEmail.getText().trim();
         String pass = txtPassword.getText();
+        String role = roleCombo.getValue();
 
         if (email.isEmpty() || pass.isEmpty()) {
             lblStatus.setText("Email and password are required.");
             return;
         }
 
-        lblStatus.setText("Login clicked (" + roleCombo.getValue() + "). Connect DAO later.");
+        // TEMP until DAO auth is connected
+        if ("FARMER".equals(role)) {
+            MainSceneController.getInstance().switchView("farmer_dashboard.fxml");
+        } else {
+            MainSceneController.getInstance().switchView("buyer_dashboard.fxml");
+        }
     }
 
     @FXML
@@ -43,11 +48,12 @@ public class LoginController {
 
     @FXML
     private void goToFarmerRegister() {
-        lblStatus.setText("Open Farmer registration screen (to be connected).");
+        MainSceneController.getInstance().switchView("farmer_register.fxml");
     }
 
     @FXML
     private void goToBuyerRegister() {
-        lblStatus.setText("Open Buyer registration screen (to be connected).");
+        MainSceneController.getInstance().switchView("buyer_register.fxml");
     }
+
 }

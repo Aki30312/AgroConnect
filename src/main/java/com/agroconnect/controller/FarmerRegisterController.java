@@ -7,12 +7,18 @@ import javafx.scene.control.TextField;
 
 public class FarmerRegisterController {
 
-    @FXML private TextField txtName;
-    @FXML private TextField txtEmail;
-    @FXML private PasswordField txtPassword;
-    @FXML private TextField txtPhone;
-    @FXML private TextField txtLocation;
-    @FXML private Label lblStatus;
+    @FXML
+    private TextField txtName;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private PasswordField txtPassword;
+    @FXML
+    private TextField txtPhone;
+    @FXML
+    private TextField txtLocation;
+    @FXML
+    private Label lblStatus;
 
     @FXML
     private void handleRegister() {
@@ -21,6 +27,6 @@ public class FarmerRegisterController {
 
     @FXML
     private void goBackToLogin() {
-        lblStatus.setText("Back to Login (scene switch later).");
+        MainSceneController.getInstance().switchView("login.fxml");
     }
 }
