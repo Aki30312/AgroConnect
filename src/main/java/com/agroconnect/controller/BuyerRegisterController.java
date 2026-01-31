@@ -24,7 +24,7 @@ public class BuyerRegisterController {
         String password = txtPassword.getText();
         String phone = txtPhone.getText().trim();
 
-        if (name.isEmpty()  email.isEmpty()  password.isEmpty()) {
+        if (name.isEmpty() || email.isEmpty()||  password.isEmpty()) {
             lblStatus.setText("Name, Email, and Password are required.");
             return;
         }

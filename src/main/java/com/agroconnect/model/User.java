@@ -1,8 +1,8 @@
-// File: src/main/java/com/agriconnect/model/User.java
+// File: src/main/java/com/agroconnect/model/User.java
 package com.agroconnect.model;
 
 /**
- * Abstract base class for all users in AgriConnect
+ * Abstract base class for all users in AgroConnect
  * Demonstrates abstraction and encapsulation
  */
 public abstract class User {
