@@ -93,40 +93,48 @@ public class FarmerController {
 
     @FXML
     private void handleAddProduct() {
+
+        if (!(Session.getCurrentUser() instanceof FarmerUser)) {
+            setStatus("No farmer logged in.");
+            return;
+        }
+
+        String name = txtName.getText().trim();
+        String priceText = txtPrice.getText().trim();
+        String qtyText = txtQuantity.getText().trim();
+
+        if (name.isEmpty()||  priceText.isEmpty() || qtyText.isEmpty()) {
+            setStatus("All fields are required.");
+            return;
+        }
+
         try {
+            double price = Double.parseDouble(priceText);
+            int qty = Integer.parseInt(qtyText);
+
+            if (price <= 0) {
+                setStatus("Price must be greater than 0.");
+                return;
+            }
+            if (qty <= 0) {
+                setStatus("Quantity must be greater than 0.");
+                return;
+            }
+
             int farmerId = currentFarmerId();
-            if (farmerId == 0) {
-                setStatus("No farmer logged in.");
-                return;
-            }
-
-            String name = txtName.getText().trim();
-            if (name.isEmpty()) {
-                setStatus("Product name is required.");
-                return;
-            }
-
-            double price = Double.parseDouble(txtPrice.getText().trim());
-            int qty = Integer.parseInt(txtQuantity.getText().trim());
-
             Product p = new Product(0, farmerId, name, price, qty);
             int newId = productDAO.addProduct(p);
-            if (newId > 0) {
-                setStatus("Product added! ID: " + newId);
-                clearFields();
-                loadMyProducts();
-            } else {
-                setStatus("Add failed.");
-            }
 
-        } catch (NumberFormatException nfe) {
-            setStatus("Price and Quantity must be numbers.");
+            setStatus("Product added successfully!");
+            clearFields();
+            loadMyProducts();
+
+        } catch (NumberFormatException e) {
+            setStatus("Price and Quantity must be valid numbers.");
         } catch (Exception e) {
-            setStatus("Add failed: " + e.getMessage());
-            e.printStackTrace();
+            setStatus("Error: " + e.getMessage());
         }
     }
-
     @FXML
     private void handleUpdateProduct() {
         Product selected = tableProducts.getSelectionModel().getSelectedItem();
