@@ -54,7 +54,9 @@ public class FarmerDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("password")
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("location")
 
 
                 );
@@ -77,7 +79,10 @@ public class FarmerDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("password")
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("location")
+
 
 
                 );
