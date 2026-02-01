@@ -170,3 +170,14 @@
      -fx-text-fill: #1b5e20;
      -fx-font-weight: bold;
  }
+#lblStatus {
+    -fx-font-weight: bold;
+}
+
+.status-error {
+    -fx-text-fill: #c62828;
+}
+
+.status-success {
+    -fx-text-fill: #2e7d32;
+}
