@@ -1,36 +1,187 @@
 package com.agroconnect.controller;
 
+import com.agroconnect.dao.ProductDAO;
+import com.agroconnect.model.FarmerUser;
+import com.agroconnect.model.Product;
+import com.agroconnect.util.Session;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class FarmerController {
 
-    // products screen fields
+    // --- Products screen UI ---
     @FXML private Label lblStatus;
     @FXML private TextField txtName;
     @FXML private TextField txtPrice;
     @FXML private TextField txtQuantity;
 
-    @FXML private TableView<?> tableProducts;
-    @FXML private TableColumn<?, ?> colId;
-    @FXML private TableColumn<?, ?> colName;
-    @FXML private TableColumn<?, ?> colPrice;
-    @FXML private TableColumn<?, ?> colQuantity;
+    @FXML private TableView<Product> tableProducts;
+    @FXML private TableColumn<Product, Integer> colId;
+    @FXML private TableColumn<Product, String> colName;
+    @FXML private TableColumn<Product, Double> colPrice;
+    @FXML private TableColumn<Product, Integer> colQuantity;
 
-    // profile screen fields
-    @FXML private TextField txtProfileName;
-    @FXML private TextField txtProfilePhone;
-    @FXML private TextField txtProfileLocation;
+    private final ProductDAO productDAO = new ProductDAO();
+    private final ObservableList<Product> products = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        // This controller is shared; initialize will run for whichever FXML is loaded.
+        // This controller is used by multiple farmer fxml screens.
+        // Only set up table if we are on the products screen.
+        if (tableProducts != null) {
+            setupTable();
+            loadMyProducts();
+
+            tableProducts.getSelectionModel().selectedItemProperty().addListener((obs, oldV, selected) -> {
+                if (selected != null) {
+                    txtName.setText(selected.getName());
+                    txtPrice.setText(String.valueOf(selected.getPrice()));
+                    txtQuantity.setText(String.valueOf(selected.getQuantity()));
+                }
+            });
+        }
     }
 
-    // dashboard navigation
+    private void setupTable() {
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        tableProducts.setItems(products);
+    }
+
+    private int currentFarmerId() {
+        if (Session.getCurrentUser() instanceof FarmerUser f) return f.getId();
+        return 0;
+    }
+
+    private void loadMyProducts() {
+        try {
+            int farmerId = currentFarmerId();
+            if (farmerId == 0) {
+                lblStatus.setText("No farmer logged in.");
+                return;
+            }
+            products.setAll(productDAO.getProductsByFarmer(farmerId));
+            lblStatus.setText("Loaded " + products.size() + " products.");
+        } catch (Exception e) {
+            lblStatus.setText("Load failed: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleAddProduct() {
+        try {
+            int farmerId = currentFarmerId();
+            if (farmerId == 0) {
+                lblStatus.setText("No farmer logged in.");
+                return;
+            }
+
+            String name = txtName.getText().trim();
+            if (name.isEmpty()) {
+                lblStatus.setText("Product name is required.");
+                return;
+            }
+
+            double price = Double.parseDouble(txtPrice.getText().trim());
+            int qty = Integer.parseInt(txtQuantity.getText().trim());
+
+            Product p = new Product(0, farmerId, name, price, qty);
+            int newId = productDAO.addProduct(p);
+
+            if (newId > 0) {
+                lblStatus.setText("Product added! ID: " + newId);
+                clearFields();
+                loadMyProducts();
+            } else {
+                lblStatus.setText("Add failed.");
+            }
+
+        } catch (NumberFormatException nfe) {
+            lblStatus.setText("Price and Quantity must be numbers.");
+        } catch (Exception e) {
+            lblStatus.setText("Add failed: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleUpdateProduct() {
+        Product selected = tableProducts.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            lblStatus.setText("Select a product first.");
+            return;
+        }
+
+        try {
+            String name = txtName.getText().trim();
+            double price = Double.parseDouble(txtPrice.getText().trim());
+            int qty = Integer.parseInt(txtQuantity.getText().trim());
+
+            selected.setName(name);
+            selected.setPrice(price);
+            selected.setQuantity(qty);
+
+            boolean ok = productDAO.updateProduct(selected);
+            if (ok) {
+                lblStatus.setText("Product updated.");
+                clearFields();
+                loadMyProducts();
+            } else {
+                lblStatus.setText("Update failed (not your product?).");
+            }
+
+        } catch (NumberFormatException nfe) {
+            lblStatus.setText("Price and Quantity must be numbers.");
+        } catch (Exception e) {
+            lblStatus.setText("Update failed: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleDeleteProduct() {
+        Product selected = tableProducts.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            lblStatus.setText("Select a product first.");
+            return;
+        }
+
+        try {
+            int farmerId = currentFarmerId();
+            boolean ok = productDAO.deleteProduct(selected.getId(), farmerId);
+
+            if (ok) {
+                lblStatus.setText("Product deleted.");
+                clearFields();
+                loadMyProducts();
+            } else {
+                lblStatus.setText("Delete failed (not your product?).");
+            }
+
+        } catch (Exception e) {
+            lblStatus.setText("Delete failed: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleRefreshProducts() {
+        loadMyProducts();
+    }
+
+    private void clearFields() {
+        txtName.clear();
+        txtPrice.clear();
+        txtQuantity.clear();
+        tableProducts.getSelectionModel().clearSelection();
+    }
+
+    // --- Navigation methods your FXML calls ---
     @FXML
     private void goToProducts() {
         MainSceneController.getInstance().switchView("farmer_product.fxml");
@@ -42,40 +193,13 @@ public class FarmerController {
     }
 
     @FXML
-    private void logout() {
-        com.agroconnect.util.Session.clear();
-        MainSceneController.getInstance().switchView("login.fxml");
-    }
-    // products actions
-    @FXML
-    private void handleAddProduct() {
-        if (lblStatus != null) lblStatus.setText("Add product clicked (connect DAO later).");
-    }
-
-    @FXML
-    private void handleUpdateProduct() {
-        if (lblStatus != null) lblStatus.setText("Update product clicked (connect DAO later).");
-    }
-
-    @FXML
-    private void handleDeleteProduct() {
-        if (lblStatus != null) lblStatus.setText("Delete product clicked (connect DAO later).");
-    }
-
-    @FXML
-    private void handleRefreshProducts() {
-        if (lblStatus != null) lblStatus.setText("Refresh products clicked (connect DAO later).");
-    }
-
-    @FXML
     private void goBackToDashboard() {
         MainSceneController.getInstance().switchView("farmer_dashboard.fxml");
     }
 
-    // profile actions
     @FXML
-    private void handleUpdateProfile() {
-        // later: FarmerDAO.updateProfile(...)
-        if (lblStatus != null) lblStatus.setText("Update profile clicked (connect DAO later).");
+    private void logout() {
+        Session.clear();
+        MainSceneController.getInstance().switchView("login.fxml");
     }
 }

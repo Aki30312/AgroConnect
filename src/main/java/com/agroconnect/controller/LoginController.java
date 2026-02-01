@@ -50,7 +50,7 @@ public class LoginController {
             } else {
                 BuyerUser buyer = buyerDAO.login(email, pass); // throws SQLException in your DAO
                 if (buyer == null) {
-                    lblStatus.setText("Invalid buyer email or password.");
+                   lblStatus.setText("Invalid buyer email or password.");
                     return;
                 }
                 Session.setCurrentUser(buyer);
