@@ -216,6 +216,14 @@ public class FarmerController {
             txtProfileLocation.setText(f.getLocation() == null ? "" : f.getLocation());
         }
     }
+    /**
+     * Handles updating the logged-in farmer's profile information.
+     * - Validates that a farmer is currently logged in
+     * - Reads and validates input fields from the profile form
+     * - Updates the farmer object in the session
+     * - Persists changes using the DAO layer
+     * - Displays success or error feedback to the user
+     */
 
     @FXML
     private void handleUpdateProfile() {

@@ -40,7 +40,6 @@ public class BuyerOrdersController {
         if (Session.getCurrentUser() instanceof BuyerUser b) return b.getId();
         return 0;
     }
-
     private void loadOrders() {
         try {
             int buyerId = currentBuyerId();
