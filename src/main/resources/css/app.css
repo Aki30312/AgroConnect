@@ -181,11 +181,20 @@
 .status-success {
     -fx-text-fill: #2e7d32;
 }
- /* LOGIN PAGE BACKGROUND */
- .login-bg {
-     -fx-background-image: url("/images/farm-bg.jpg");
-     -fx-background-size: cover;
+ /* FULL LOGIN PAGE BACKGROUND */
+ .login-page {
+     -fx-background-image: url("/images/farm-bg.jpg"); /* change name if needed */
+     -fx-background-repeat: no-repeat;
      -fx-background-position: center;
+     -fx-background-size: cover;
+ }
+
+ /* Make the card slightly transparent so the image shows behind it */
+ .card {
+     -fx-background-color: rgba(255, 255, 255, 0.88);
+     -fx-border-color: #c8e6c9;
+     -fx-border-radius: 14;
      -fx-background-radius: 14;
-     -fx-padding: 20;
+     -fx-padding: 16;
+     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 14, 0.22, 0, 3);
  }
