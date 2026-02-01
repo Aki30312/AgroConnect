@@ -9,7 +9,7 @@
             fx:controller="com.agroconnect.controller.LoginController">
 
     <center>
-        <VBox spacing="12" alignment="CENTER" maxWidth="420">
+        <VBox spacing="14" alignment="CENTER" maxWidth="440" styleClass="card login-bg">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
