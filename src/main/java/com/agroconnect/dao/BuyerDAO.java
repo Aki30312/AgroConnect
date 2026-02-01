@@ -4,9 +4,15 @@ import com.agroconnect.model.BuyerUser;
 import com.agroconnect.util.DBConnection;
 
 import java.sql.*;
+/**
+ * Data Access Object (DAO) responsible for handling
+ * database operations related to Buyer users.
+ */
 
 public class BuyerDAO {
-
+/**
+ * Registers a new buyer in the database.
+ */
     public int registerBuyer(BuyerUser buyer) throws SQLException {
         String sql = "INSERT INTO buyers(name, email, password, phone) VALUES(?,?,?,?)";
 
