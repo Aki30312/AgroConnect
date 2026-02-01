@@ -43,9 +43,9 @@ public class FarmerController {
 
     @FXML
     private void logout() {
+        com.agroconnect.util.Session.clear();
         MainSceneController.getInstance().switchView("login.fxml");
     }
-
     // products actions
     @FXML
     private void handleAddProduct() {

@@ -16,6 +16,7 @@ public class BuyerDashboardController {
 
     @FXML
     private void logout() {
+        com.agroconnect.util.Session.clear();
         MainSceneController.getInstance().switchView("login.fxml");
     }
 }
