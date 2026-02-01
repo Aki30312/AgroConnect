@@ -224,12 +224,18 @@ public class FarmerController {
             return;
         }
 
+
+
         String name = txtProfileName.getText().trim();
         String phone = txtProfilePhone.getText().trim();
         String location = txtProfileLocation.getText().trim();
 
         if (name.isEmpty()) {
             new Alert(Alert.AlertType.WARNING, "Name is required.").showAndWait();
+            return;
+        }
+        if (name.length() < 3) {
+            new Alert(Alert.AlertType.WARNING, "Name must be at least 3 characters.").showAndWait();
             return;
         }
 
