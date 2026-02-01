@@ -5,20 +5,23 @@ public class Order {
     private int buyerId;
     private int productId;
     private int quantity;
+    private String orderDate;
 
-    public Order(int id, int buyerId, int productId, int quantity) {
+    public Order(int id, int buyerId, int productId, int quantity, String orderDate) {
         this.id = id;
         this.buyerId = buyerId;
         this.productId = productId;
         this.quantity = quantity;
+        this.orderDate = orderDate;
     }
 
     public Order(int buyerId, int productId, int quantity) {
-        this(0, buyerId, productId, quantity);
+        this(0, buyerId, productId, quantity, null);
     }
 
     public int getId() { return id; }
     public int getBuyerId() { return buyerId; }
     public int getProductId() { return productId; }
     public int getQuantity() { return quantity; }
+    public String getOrderDate() { return orderDate; }
 }
