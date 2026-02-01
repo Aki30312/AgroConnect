@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import com.agroconnect.util.ValidationUtil;
 
 public class FarmerRegisterController {
 
@@ -26,9 +27,21 @@ public class FarmerRegisterController {
         String phone = txtPhone.getText().trim();
         String location = txtLocation.getText().trim();
 
-        // Basic validation
-        if (name.isEmpty() ||  email.isEmpty() || password.isEmpty()) {
+        // Required fields
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             lblStatus.setText("Name, Email, and Password are required.");
+            return;
+        }
+
+        // Email validation
+        if (!ValidationUtil.isValidEmail(email)) {
+            lblStatus.setText("Enter a valid email (example@mail.com).");
+            return;
+        }
+
+        // Password validation
+        if (!ValidationUtil.isValidPassword(password)) {
+            lblStatus.setText("Password must be 8+ chars with Upper, Lower, Number, Special.");
             return;
         }
 
@@ -38,7 +51,6 @@ public class FarmerRegisterController {
 
         if (ok) {
             lblStatus.setText("Farmer registered successfully!");
-            // Go back to login after success
             MainSceneController.getInstance().switchView("login.fxml");
         } else {
             lblStatus.setText("Registration failed (email may already exist).");

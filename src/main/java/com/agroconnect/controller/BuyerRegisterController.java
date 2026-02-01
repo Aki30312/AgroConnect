@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import com.agroconnect.util.ValidationUtil;
 
 public class BuyerRegisterController {
 
@@ -24,8 +25,21 @@ public class BuyerRegisterController {
         String password = txtPassword.getText();
         String phone = txtPhone.getText().trim();
 
-        if (name.isEmpty() || email.isEmpty()||  password.isEmpty()) {
+        // Required fields
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             lblStatus.setText("Name, Email, and Password are required.");
+            return;
+        }
+
+        // Email validation
+        if (!ValidationUtil.isValidEmail(email)) {
+            lblStatus.setText("Enter a valid email (example@mail.com).");
+            return;
+        }
+
+        // Password validation
+        if (!ValidationUtil.isValidPassword(password)) {
+            lblStatus.setText("Password must be at least 5 characters long");
             return;
         }
 
@@ -42,9 +56,7 @@ public class BuyerRegisterController {
             }
 
         } catch (Exception e) {
-            // Most common: UNIQUE constraint failed: buyers.email
-            lblStatus.setText("Registration error: " + e.getMessage());
-            e.printStackTrace();
+            lblStatus.setText("Registration error: Email may already exist.");
         }
     }
 
